@@ -1,19 +1,21 @@
 import { connect, styled } from "frontity";
 import Link from "./link";
-import Nav from "./nav";
 import MobileMenu from "./menu";
+import logo from "../assets/logo.svg"
 
 const Header = ({ state }) => {
   return (
     <>
       <Container>
+        
         <StyledLink link="/">
-          <Title>{state.frontity.title}</Title>
+          <Logo src={logo} />
+          {/* <Title>{state.frontity.title}</Title> */}
         </StyledLink>
-        <Description>{state.frontity.description}</Description>
-        <MobileMenu />
+        {/* <MobileMenu /> */}
+        <HeaderDesc>Since 2016</HeaderDesc>
       </Container>
-      <Nav />
+      {/* <Nav /> */}
     </>
   );
 };
@@ -22,26 +24,23 @@ const Header = ({ state }) => {
 export default connect(Header);
 
 const Container = styled.div`
-  width: 848px;
-  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
-  padding: 24px;
-  color: #fff;
+  padding: 5% 5.5% 1%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  margin-bottom: 16px;
-`;
-
-const Description = styled.h4`
-  margin: 0;
-  color: rgba(255, 255, 255, 0.7);
+  align-content: center;
+  justify-content: space-between;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-`;
+`
+
+const Logo = styled.img`
+`
+const HeaderDesc = styled.p`
+  font-size: 24px;
+  color: black;
+`
+
+

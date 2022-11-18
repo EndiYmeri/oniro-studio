@@ -6,6 +6,12 @@ import Post from "./post";
 import Loading from "./loading";
 import Title from "./title";
 import PageError from "./page-error";
+import { HomePage } from "./HomePage/Homepage";
+import { Footer } from "./footer";
+import MerchantThin from "../assets/Merchant-Thin.woff"
+import BagindaScript from "../assets/BagindaScript.woff"
+import { Categories } from "./categories";
+import PaintingsCategories from "./list/paintings-categories";
 
 /**
  * Theme is the root React component of our theme. The one we will export
@@ -18,7 +24,7 @@ import PageError from "./page-error";
 const Theme = ({ state }) => {
   // Get information about the current URL.
   const data = state.source.get(state.router.link);
-
+  console.log({"Index":data, state})
   return (
     <>
       {/* Add some metatags to the <head> of the HTML. */}
@@ -34,19 +40,23 @@ const Theme = ({ state }) => {
 
       {/* Add the header of the site. */}
       <HeadContainer>
-        <Header />
+        <Switch>
+          <Header when={!data.isHome} />
+        </Switch>
       </HeadContainer>
-
       {/* Add the main section. It renders a different component depending
       on the type of URL we are in. */}
       <Main>
         <Switch>
+          <HomePage when={data.isHome} />
+          {/* <PaintingsCategories when={data.isPaintingArchive} /> */}
+          <List when={data.isPaintingCat || data.isPaintingArchive } />
+          <Post when={data.isPainting} />
           <Loading when={data.isFetching} />
-          <List when={data.isArchive} />
-          <Post when={data.isPostType} />
           <PageError when={data.isError} />
         </Switch>
       </Main>
+      <Footer/>
     </>
   );
 };
@@ -54,31 +64,48 @@ const Theme = ({ state }) => {
 export default connect(Theme);
 
 const globalStyles = css`
+  
+  @font-face {
+    font-family: 'Merchant Thin';
+    font-style: normal;
+    font-weight: normal;
+    src: url(${MerchantThin}) format('woff');
+    }
+
+  @font-face {
+    font-family: 'BagindaScript';
+    font-style: normal;
+    font-weight: normal;
+    src: url(${BagindaScript}) format('woff');
+    }
+
+    *{
+      box-sizing: border-box;
+    }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Merchant Thin";
+    background-color: #121A1C;
   }
   a,
   a:visited {
     color: inherit;
     text-decoration: none;
+    font-family: "Merchant Thin";
+  }
+  button{
+    font-family: "Merchant Thin";
   }
 `;
 
 const HeadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: #1f38c5;
+  background-color: #E5E5E5;
 `;
 
 const Main = styled.div`
-  display: flex;
-  justify-content: center;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     180deg,
     rgba(66, 174, 228, 0.1),
     rgba(66, 174, 228, 0)
-  );
+  ); */
 `;
