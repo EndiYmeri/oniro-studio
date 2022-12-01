@@ -1,60 +1,31 @@
 import { styled } from "frontity"
-import React, {useState} from "react"
+import React, { useState, useEffect} from "react"
 import Link from "../link";
 import logo from "../../assets/logo.svg"
-import kristina from "../../assets/kristina.jpg"
-import simpleArrow from "../../assets/simpleArrow.svg"
-import advArrow from "../../assets/advArrow.svg"
+import heroImg from "../../assets/hero-blackish.jpg"
 import oniroCircle from "../../assets/oniroCircle.svg"
-import oniroCircleWhiteMedium from "../../assets/oniroCircleWhiteMedium.svg"
 import ReactWhatsapp from 'react-whatsapp';
 import {useMediaQuery} from 'react-responsive'
+import Item from "../list/list-item";
+import KristinaPaint from "../../assets/kristina-paint.jpg"
     const Container = styled.div`
         width: 100%;
         margin: 0;
-        padding: 0;
+        @media screen and (min-width: 768px) {
+            padding: 131px 160px;
+        };
+    `
+    const HeroSection = styled.div`
+        background-image: url(${heroImg});
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        text-align: center;
         display: grid;
-        overflow-x: hidden;
-        grid-template-columns: 50% 50%;
-        /* background: rgb(229,229,229);
-        background: linear-gradient(90deg, rgba(229,229,229,1) 50%, rgba(18,26,28,1) 50%); */
-        @media screen and (max-width: 600px) {
-            display: flex;
-            flex-direction: column;
-        }
-    `
-    const LeftSide = styled.div`
-        padding: 10% 11%;
+        min-height: 800px;
         width: 100%;
-        background-color: #E5E5E5;
-        display: flex;
-        justify-content: flex-end;
-    `
-    const LeftSideContent = styled.div`
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 800px;
-    `
-    const RightSide = styled.div`
-        padding: 10% 11%;
-        display: flex;
-        align-items: center;
-    `
-    const RightSideContent =styled.div`
-        position: relative;
-    `
-    const MainImage = styled.img`   
-        width: 100%;
-        max-width: 645px;
-    `
-    const ActionDivs = styled.div`
-        display: grid;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        grid-template-columns: auto auto;
+        place-items:center;
+        color: white;
     `
     const ActionButton = styled.button`
         background-color: #121A1C;
@@ -82,11 +53,6 @@ import {useMediaQuery} from 'react-responsive'
             transform: translate(-50%, -50%);
         }
     ` 
-    const ActionButtonsContainer = styled.div`
-        display: grid;
-        gap: 25px;
-        grid-auto-flow: row;
-    `
     const NormalText = styled.p`
         font-size: 28px;
         line-height: 1.1;
@@ -100,92 +66,196 @@ import {useMediaQuery} from 'react-responsive'
         font-weight: 200;
         line-height: 1.2;
     `
-    const InlineArrows = styled.img`
-        position: absolute;
-        width: ${props => props.width || "50%"};
-        left: ${props => props.left || "30%"};
-        bottom: ${props => props.bottom || "0"};
-        @media screen and (max-width: 768px) {
-            bottom: "30%";
-        }
-        @media screen and (max-width: 600px) {
-            bottom: "10%";
-        }
-    `  
-    const FloatingCircle = styled.img`
-        z-index:10 ;
-        position: absolute;
-        top: 10%;
-        right: 0%;
-        transform: translateX(50%);
-    `
-
     const StyledLink = styled(Link)`
      text-decoration: none;
     `
+    const Categories = styled.div`
+        display: grid;
+        grid-template-columns: auto;
+        gap:10px;
+    `
+    const About = styled.div`
+        padding: 10px 20px ;
+        color: white;
+        display: grid;
+        gap: 20px;
+    `  
+    const AboutImg = styled.img`
+        width: 100%;
+        max-width: 250px;
+        margin: auto;
+    `
+    const AboutText = styled.div`
+        display: grid;
+        grid-template-columns: auto;
+        text-align: justify;
+        @media screen and (min-width: 768px) {
+            grid-template-columns: 50% 50%;
+            gap: 20px;
+        };
+    `
 
-
-export function HomePage(props) {
+export function HomePage({state}) {
     const isMobile = useMediaQuery({query: `(max-width: 600px)`})
     const isLaptop = useMediaQuery({query: `(max-width: 1024px)`})
     const isTablet = useMediaQuery({query: `(max-width: 768px)`})
+    const [catsToShow, setCatsToShow] = useState()
+
+    let paint_cat = [
+        {
+            "id": 3,
+            "link": "/painting_cat/3d-texture-art/",
+            "name": "3D Texture Art",
+            "slug": "3d-texture-art",
+            "taxonomy": "painting_cat",
+            "acf": {
+                "category_image": "https://admin.onirostudio.com/wp-content/uploads/2022/12/emosional-self.jpg"
+            },
+            "_links": {
+                "self": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat/3"
+                    }
+                ],
+                "collection": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat"
+                    }
+                ],
+                "about": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/taxonomies/painting_cat"
+                    }
+                ],
+                "wp:post_type": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting?painting_cat=3"
+                    }
+                ],
+                "curies": [
+                    {
+                        "name": "wp",
+                        "href": "https://api.w.org/{rel}",
+                        "templated": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "link": "/painting_cat/colourful/",
+            "name": "Colourful",
+            "slug": "colourful",
+            "taxonomy": "painting_cat",
+            "acf": {
+                "category_image": "https://admin.onirostudio.com/wp-content/uploads/2022/12/spirit.jpg"
+            },
+            "_links": {
+                "self": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat/5"
+                    }
+                ],
+                "collection": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat"
+                    }
+                ],
+                "about": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/taxonomies/painting_cat"
+                    }
+                ],
+                "wp:post_type": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting?painting_cat=5"
+                    }
+                ],
+                "curies": [
+                    {
+                        "name": "wp",
+                        "href": "https://api.w.org/{rel}",
+                        "templated": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "link": "/painting_cat/resin-art/",
+            "name": "Resin Art",
+            "slug": "resin-art",
+            "taxonomy": "painting_cat",
+            "acf": {
+                "category_image": "https://admin.onirostudio.com/wp-content/uploads/2022/12/the-deepths-of-Jonian-.png"
+            },
+            "_links": {
+                "self": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat/6"
+                    }
+                ],
+                "collection": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting_cat"
+                    }
+                ],
+                "about": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/taxonomies/painting_cat"
+                    }
+                ],
+                "wp:post_type": [
+                    {
+                        "href": "https://admin.onirostudio.com/wp-json/wp/v2/painting?painting_cat=6"
+                    }
+                ],
+                "curies": [
+                    {
+                        "name": "wp",
+                        "href": "https://api.w.org/{rel}",
+                        "templated": true
+                    }
+                ]
+            }
+        }
+    ]
     // console.log(props)
     return <Container>
-        <LeftSide>
-            <LeftSideContent>
+        <HeroSection>
+            <h1>
+                Unique art pieces for your interior <br/> since 2016
+            </h1>
+        </HeroSection>
+        <Categories>
+            {
+                paint_cat.map((painting => {
+                    return <Item key={painting.id} item={painting}/>
+                }))
+            }
+        </Categories>
+        <About>
+            <AboutImg src={KristinaPaint} />
+            <AboutText>
                 <div>
-                    <img src={logo} alt="logo" />
+                    <h2>Hello!</h2>
+                    <p>Hello! I am Kristina Shkurti, the artist behind ONIRO studio (“Dream studio “ from Greek) and all the handmade artworks since 2016,based in Tirana,Albania.</p>
+                    <p>
+Graduated in Architecture but art chose me as part of my heart and soul since I was a child. I did my first exhibition in 2017 with abstract acrylic paintings named “Gjendje Pragnore” .
+For 6 years now I am a full time artist with hundred of artworks sold worldwide.
+</p>
                 </div>
                 <div>
-                    <NormalText>
-                        I am <strong>Kristina Shkurti</strong>
-                    </NormalText>
-                    <NormalText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </NormalText>
-                    <NormalText>
-                        Proin dignissim accumsan libero ac convallis.<br/>Aenean sit amet iaculis leo.
-                        Ut diam mi, rhoncus non massa non, vulputate vestibulum ligula.
-                    </NormalText>
+                    <p>
+                        As an contemporary artist l experiment with different materials to create special effects to express my feelings and concerns through my art. Materials such as resin,3D art texture,acrylics , oil colors,spray ext. My art can be minimalist only by some black brush strokes but also colorful and daydreaming.
+                    </p>
+                    <p>
+                        My inspiration come from my every day life,from our beautiful nature and interesting compositions and colors that  offers us.
+                        As an observational person I am also inspired from people’s stories and portraits. Every time I try to bring the best quality and different original ideas in my creations.
+                        Feel free to look around and let me know if you are interested in one of the available artworks or if I can create you one.
+                    </p>
                 </div>
-                <div>
-                    <ActionDivs>
-                        <HeadingText>Check out my work here</HeadingText>
-                        <InlineArrows src={simpleArrow} alt="arrow"/>
-                        <StyledLink link="/painting_cat">
-                            <ActionButton>
-                                Work
-                           </ActionButton>
-                        </StyledLink>
-                        {/* <ActionButton>Work</ActionButton> */}
-                    </ActionDivs>
-                    <ActionDivs>
-                    
-                        <HeadingText>Contact me here</HeadingText>
-                        {
-                            isMobile ? <InlineArrows src={advArrow} bottom="65px" width="35%" left="20%" alt="arrow"/> 
-                            : isLaptop ? <InlineArrows src={advArrow} bottom="15px" width="35%" left="20%" alt="arrow"/> 
-                            : isTablet ? <InlineArrows src={advArrow} bottom="15px" width="75%" left="10%" alt="arrow"/>
-                            : <InlineArrows src={advArrow} bottom="20px" width="40%" left="35%" alt="arrow"/>
-                        }
-                        <ActionButtonsContainer>
-                            <ActionButton>DM</ActionButton>
-                                <ReactWhatsapp number="+355672418595" message={"message"} element="span">
-                                    <ActionButton>
-                                        Whatsapp
-                                    </ActionButton>   
-                                </ReactWhatsapp>
-                            
-                        </ActionButtonsContainer>
-                    </ActionDivs>
-                </div>
-            </LeftSideContent>
-        </LeftSide>
-        <RightSide>
-            <RightSideContent>
-                <FloatingCircle src={oniroCircleWhiteMedium} alt="cirlce" />
-                <MainImage src={kristina} alt="author img" />
-            </RightSideContent>
-        </RightSide>
+            </AboutText>
+        </About>
     </Container>
 }

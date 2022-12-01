@@ -29,7 +29,8 @@ const List = ({ state }) => {
       }
       setDataToShow(dataToShowArray)
     }
-
+    console.log({dataToShow, data});
+    
 
   },[data])
  // let categories = Object.values(categoriesObject)
@@ -63,17 +64,21 @@ const List = ({ state }) => {
 const Container = styled.section`
   margin: 0;
   list-style: none;
-  background-color: #E5E5E5;
+  background-color: #000000;
   display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
   justify-content: center;
   border-top: 1px solid black;
+
+  @media screen and (max-width: 768px) {
+   grid-template-columns: auto;
+  };
 `;
 
 const Header = styled.h3`
   font-weight: 300;
   /* text-transform: capitalize; */
-  color: rgba(12, 17, 43, 0.9);
+  color: #fff
 `;
 
 

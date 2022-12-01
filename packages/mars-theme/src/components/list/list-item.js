@@ -12,12 +12,12 @@ import Link from "../link";
 const Item = ({ state, item }) => {
 
   const media= state.source.attachment[item.featured_media];
-
+  console.log(item)
   return (
       <ArticleComp>
         <StyledLink link={item.link} >
-            <ImgComp src={item.acf.cat_image || media.source_url} />
             <h1>{item.name || item.title.rendered}</h1>
+            <ImgComp src={item.acf.category_image || media?.source_url} />
         </StyledLink>
       </ArticleComp>
   );
@@ -27,9 +27,10 @@ const Item = ({ state, item }) => {
 export default connect(Item);
 
   const ArticleComp = styled.article`
-    padding: 121px 10px;
+    padding: 20px 20px;
     text-align: center;
     /* use instead of border */
+    color: #fff;
     border-bottom: 1px solid black;
     :nth-of-type(3n-1){
       border-left: 1px solid black;

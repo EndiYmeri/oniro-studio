@@ -2,7 +2,7 @@ import { styled } from "frontity"
 import React from "react"
 import oniroCircleWhiteBig from "../assets/oniroCircleWhiteBig.svg"
 import oniroCircleWhiteMedium from "../assets/oniroCircleWhiteMedium.svg"
-import logoWhite from "../assets/logoWhite.svg"
+import logo from "../assets/logo.svg"
 import instagram from "../assets/instagram.svg"
 import whatsapp from "../assets/whatsapp.svg"
 import ReactWhatsapp from 'react-whatsapp';
@@ -19,15 +19,10 @@ const FooterContainer = styled.div`
         overflow: hidden;
     }
 `
-
-const FloatingCircle = styled.img`
-    z-index: -1;
-    position: absolute;
-    transform: ${props => `translateY(${props.transY})` || "translateY(0)"};
-    top: ${props => props.top};
-    left: ${props => props.left || "unset" };
-    right: ${props => props.right || "unset" };
+const Logo = styled.img`
+    height: 70px;
 `
+
 const FooterLinksContainer = styled.div`
     margin-top: 100px;
     display: flex;
@@ -49,7 +44,7 @@ const FooterLink = styled.a`
 export function Footer(props) {
     return (
         <FooterContainer>
-            <img src={logoWhite} alt="Logo White" />
+            <Logo src={logo} alt="Logo White" />
             <FooterLinksContainer>
                 <FooterLink href="https://www.instagram.com/oniro.studio" target={"_blank"}>
                     <img src={instagram}/>
@@ -62,7 +57,5 @@ export function Footer(props) {
                     </FooterLink>
                 </ReactWhatsapp>
             </FooterLinksContainer>
-            <FloatingCircle src={oniroCircleWhiteBig} transY="-100%" top="150px" left="50%" />
-            <FloatingCircle src={oniroCircleWhiteMedium} top="200px" right="10%" />
         </FooterContainer>
     )}

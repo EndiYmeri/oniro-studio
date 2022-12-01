@@ -57,6 +57,7 @@ const settings = {
     },
     "@frontity/tiny-router",
     "@frontity/html2react",
+    "@aamodtgroup/frontity-contact-form-7",
   ]
 };
 

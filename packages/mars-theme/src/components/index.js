@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Global, css, connect, styled, Head } from "frontity";
 import Switch from "@frontity/components/switch";
 import Header from "./header";
@@ -6,6 +7,7 @@ import Post from "./post";
 import Loading from "./loading";
 import Title from "./title";
 import PageError from "./page-error";
+import Newsletter from "./newsletter";
 import { HomePage } from "./HomePage/Homepage";
 import { Footer } from "./footer";
 import MerchantThin from "../assets/Merchant-Thin.woff"
@@ -24,7 +26,10 @@ import PaintingsCategories from "./list/paintings-categories";
 const Theme = ({ state }) => {
   // Get information about the current URL.
   const data = state.source.get(state.router.link);
-  console.log({"Index":data, state})
+    const paint_cat = state.source.painting_cat
+    console.log({paint_cat});
+  const [subscribed, setSubscribed] = useState(true)
+  console.log({"Index":data, state}, subscribed)
   return (
     <>
       {/* Add some metatags to the <head> of the HTML. */}
@@ -37,26 +42,32 @@ const Theme = ({ state }) => {
       {/* Add some global styles for the whole site, like body or a's. 
       Not classes here because we use CSS-in-JS. Only global HTML tags. */}
       <Global styles={globalStyles} />
+      {
+       subscribed ? 
+        <>
+          {/* Add the header of the site. */}
+          <HeadContainer>
+            <Switch>
+              <Header />
+            </Switch>
+          </HeadContainer>
+          {/* Add the main section. It renders a different component depending
+          on the type of URL we are in. */}
+          <Main>
+            <Switch>
+                <HomePage when={data.isHome}/>
+                {/* <PaintingsCategories when={data.isPaintingArchive} /> */}
+                <List when={data.isPaintingCat || data.isPaintingArchive } />
+                <Post when={data.isPainting} />
+                <Loading when={data.isFetching} />
+                <PageError when={data.isError} />
+            </Switch>
+          </Main>
+          <Footer/>
+        </>
+        : <Newsletter setSubscribed={setSubscribed}/>
+      }
 
-      {/* Add the header of the site. */}
-      <HeadContainer>
-        <Switch>
-          <Header when={!data.isHome} />
-        </Switch>
-      </HeadContainer>
-      {/* Add the main section. It renders a different component depending
-      on the type of URL we are in. */}
-      <Main>
-        <Switch>
-          <HomePage when={data.isHome} />
-          {/* <PaintingsCategories when={data.isPaintingArchive} /> */}
-          <List when={data.isPaintingCat || data.isPaintingArchive } />
-          <Post when={data.isPainting} />
-          <Loading when={data.isFetching} />
-          <PageError when={data.isError} />
-        </Switch>
-      </Main>
-      <Footer/>
     </>
   );
 };
@@ -85,7 +96,7 @@ const globalStyles = css`
   body {
     margin: 0;
     font-family: "Merchant Thin";
-    background-color: #121A1C;
+    background-color: #000000;
   }
   a,
   a:visited {
@@ -96,13 +107,20 @@ const globalStyles = css`
   button{
     font-family: "Merchant Thin";
   }
+  input{
+    font-family: "Merchant Thin";
+    font-weight: 500;
+  }
 `;
 
 const HeadContainer = styled.div`
-  background-color: #E5E5E5;
+  background-color: transparent;
+  position: fixed;
+  width: 100%;
 `;
 
 const Main = styled.div`
+  padding-top:120px;
   /* background-image: linear-gradient(
     180deg,
     rgba(66, 174, 228, 0.1),

@@ -13,7 +13,7 @@ const Header = ({ state }) => {
           {/* <Title>{state.frontity.title}</Title> */}
         </StyledLink>
         {/* <MobileMenu /> */}
-        <HeaderDesc>Since 2016</HeaderDesc>
+        <HeaderDesc></HeaderDesc>
       </Container>
       {/* <Nav /> */}
     </>
@@ -37,6 +37,10 @@ const StyledLink = styled(Link)`
 `
 
 const Logo = styled.img`
+  height: 40px;
+  @media screen and (min-width: 768px) {
+            height: 60px;
+        };
 `
 const HeaderDesc = styled.p`
   font-size: 24px;

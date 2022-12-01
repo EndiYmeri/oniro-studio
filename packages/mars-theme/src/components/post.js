@@ -94,20 +94,27 @@ const Container = styled.div`
   padding: 1rem 0 10rem ;
   width: 100%;
   margin: 0;
-  background-color: #E5E5E5;
+  background-color: #000000;
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: auto;
   gap: 20px;
   place-items: center;
+  @media screen and (min-width: 768px) {
+  grid-template-columns: 60% 40%;
+  };
+  
 `;
 
 const RightSide = styled.div`
+  img{
+    width: 100%;
+  }
 `
 const LeftSide = styled.div`
   max-width: 400px;
 `
 const ActionButton = styled.button`
-  background-color: #121A1C;
+  background-color: #FF4D00;
   color: #FFFFFF;
   border-radius: 50px;
   font-size: 18px;
@@ -119,18 +126,16 @@ const ActionButton = styled.button`
   cursor: pointer;
   position: relative;
   transition: all 0.1s ease;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   :hover{
       color: #121A1C;
       font-weight: 900;
-      background-color: transparent; 
+      background-color: transparent;
+      color: #FF4D00;
+      border:1px solid #FF4D00 ;
   }
-  :hover::before {
-      position: absolute;
-      content: url(${oniroCircle});
-      top: 50%;
-      left: 47%;
-      transform: translate(-50%, -50%);
-  }
+ 
 ` 
 const ActionButtonsContainer = styled.div`
   margin-top: 5rem;
@@ -146,7 +151,7 @@ const Title = styled.h1`
   margin: 0;
   margin-top: 24px;
   margin-bottom: 8px;
-  color: rgba(12, 17, 43);
+  color: #fff;
 `;
 
 /**
